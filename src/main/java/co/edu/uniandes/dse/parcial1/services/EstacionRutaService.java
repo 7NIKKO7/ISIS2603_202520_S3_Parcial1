@@ -42,4 +42,26 @@ public class EstacionRutaService {
 
     return ruta;
     }
+
+    @Transactional
+    public void removeRutaFromEstacion(Long estacionId, Long rutaId) throws EntityNotFoundException {
+        
+        Optional<EstacionEntity> estacionEntity = estacionRepository.findById(estacionId);
+        if (estacionEntity.isEmpty())
+           throw new EntityNotFoundException("Estacioo no encontrada");
+
+        Optional<RutaEntity> rutaEntity = rutaRepository.findById(rutaId);
+        if (rutaEntity.isEmpty())
+            throw new EntityNotFoundException("Ruta no encontrada");
+
+    RutaEntity ruta = rutaEntity.get();
+    EstacionEntity estacion = estacionEntity.get();
+
+    if (!ruta.getEstaciones().contains(estacion)) {
+        throw new EntityNotFoundException("La estacion no esta asociada a esta ruta");
+    }
+
+    ruta.getEstaciones().remove(estacion);
+    estacion.getRutas().remove(ruta);
+    }
 }
