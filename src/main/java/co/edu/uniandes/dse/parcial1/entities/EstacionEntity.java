@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.Data;
 import uk.co.jemos.podam.common.PodamExclude;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,5 +17,5 @@ public class EstacionEntity extends BaseEntity {
 
     @PodamExclude
     @ManyToMany (mappedBy = "Estaciones")
-    private List<RutaEntity> ruta;
+    private List<RutaEntity> rutas = new ArrayList<>();
 }
